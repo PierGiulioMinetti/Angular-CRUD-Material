@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../shared/services/api.service';
+//to close the dialog(modal)
+import { MatDialogRef } from '@angular/material/dialog';
 
 
 @Component({
@@ -18,7 +20,9 @@ export class DialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private api: ApiService
+    private api: ApiService,
+    //to close the dialog(modal)
+    private dialog: MatDialogRef<DialogComponent>
   ) { }
 
   ngOnInit(): void {
@@ -31,7 +35,7 @@ export class DialogComponent implements OnInit {
       date: ['', Validators.required],
     });
 
-    this.getData();
+
   }
 
   saveProduct() {
@@ -48,6 +52,9 @@ export class DialogComponent implements OnInit {
       this.api.postProduct(this.productForm.value).subscribe({
         next: (res) => {
           console.log(res);
+          this.productForm.reset();
+          //to close the dialog(modal)
+          this.dialog.close();
           alert('product added succesfully!');
         },
         error: (err) => {
@@ -62,12 +69,6 @@ export class DialogComponent implements OnInit {
     }
   }
 
-  getData() {
-    this.api.getProduct().subscribe((res) => {
-      console.log("data fetched!");
-      this.productLis = res;
-    })
 
-  }
 
 }
