@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   productLis: any;
 
   //MATERIAL COPIED FROM TS TABLE
-  displayedColumns: string[] = ['Product Name', 'Category', 'Condition', 'Price', 'Comment', 'Date', 'Id'];
+  displayedColumns: string[] = ['Product Name', 'Category', 'Condition', 'Price', 'Comment', 'Date', 'Id', 'Action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -57,6 +57,13 @@ export class AppComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.productLis = res;
+    })
+  }
+
+  editProduct(row: any) {
+    this.dialog.open(DialogComponent, {
+      width: '30%',
+      data: row
     })
   }
 
