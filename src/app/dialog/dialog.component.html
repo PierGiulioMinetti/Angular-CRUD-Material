@@ -1,0 +1,71 @@
+<h1 mat-dialog-title>Add Product Form</h1>
+<div mat-dialog-content>
+    <form [formGroup]="productForm">
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Product Name</mat-label>
+                <input matInput placeholder="Type your name" formControlName="productName" name="productName">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Product Category</mat-label>
+                <mat-select placeholder="Category" formControlName="category">
+                    <mat-option value="Fruit">Fruit</mat-option>
+                    <mat-option value="Vegetables">Vegetables</mat-option>
+                    <mat-option value="Electronics">Electronics</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="fill">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="date" name="date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </p>
+        <label for="">
+            <h1>
+                Product Conditions
+            </h1>
+        </label>
+        <mat-radio-group formControlName="condition">
+            <p *ngFor="let condition of conditionProducts">
+                <mat-radio-button [value]="condition">
+                    {{condition}}
+                </mat-radio-button>
+            </p>
+        </mat-radio-group>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Price</mat-label>
+                <input matInput type="number" placeholder="Price" formControlName="price" name="price">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Comments</mat-label>
+                <textarea matInput name="Comments" id="" cols="30" rows="10" formControlName="comment"
+                    name="comment"></textarea>
+            </mat-form-field>
+        </p>
+    </form>
+
+    <div mat-dialog-actions [align]="'end'">
+        <button mat-raised-button color="primary" (click)="postProduct()">Save</button>
+        <button mat-raised-button color="warn" mat-dialog-close>Close</button>
+    </div>
+
+</div>
+
+
+<div *ngFor="let field of productLis">
+    <p>{{field.productName}}</p>
+    <p>{{field.category}}</p>
+    <p>{{field.condition}}</p>
+    <p>{{field.price}}</p>
+    <p>{{field.comment}}</p>
+    <p>{{field.date}}</p>
+    <p>{{field.id}}</p>
+</div>
