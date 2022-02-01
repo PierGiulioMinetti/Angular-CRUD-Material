@@ -42,13 +42,15 @@ export class AppComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogComponent, {
 
       width: '30%'
+    }).afterClosed().subscribe(val => {
+      if (val === 'save') {
+        this.getData();
+      }
     })
     // dialogRef.afterClosed().subscribe(result => {
     //   console.log(`Dialog result: ${result}`);
     // });
   }
-
-
 
   getData() {
     this.api.getProduct().subscribe((res: any) => {
@@ -64,7 +66,27 @@ export class AppComponent implements OnInit {
     this.dialog.open(DialogComponent, {
       width: '30%',
       data: row
+    }).afterClosed().subscribe((val) => {
+      if (val === 'update') {
+        this.getData();
+      }
     })
+  }
+
+
+  deleteProduct(id: number) {
+    this.api.deleteProduct(id).subscribe({
+      next: ((res) => {
+        console.log(res);
+        alert("product deleted!");
+        this.getData();
+      }),
+      error: ((res) => {
+        console.log(res);
+
+      })
+    })
+
   }
 
 

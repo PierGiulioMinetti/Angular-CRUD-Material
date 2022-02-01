@@ -36,10 +36,10 @@ export class DialogComponent implements OnInit {
       price: ['', Validators.required],
       comment: ['', Validators.required],
       date: ['', Validators.required],
-
-
     });
+
     console.log(this.editData);
+
     if (this.editData) {
       this.actionBtn = "Update";
       this.productForm.controls['productName'].setValue(this.editData.productName);
@@ -51,7 +51,7 @@ export class DialogComponent implements OnInit {
     }
 
 
-  }
+  } //end ngOnInit
 
   saveProduct() {
     console.log(this.productForm.value);
@@ -63,27 +63,53 @@ export class DialogComponent implements OnInit {
   }
 
   postProduct() {
-    if (this.productForm.valid) {
-      this.api.postProduct(this.productForm.value).subscribe({
-        next: (res) => {
-          console.log(res);
-          this.productForm.reset();
-          //to close the dialog(modal)
-          this.dialog.close();
-          alert('product added succesfully!');
-        },
-        error: (err) => {
-          console.log(err);
-          alert(err);
+    if (!this.editData) {
+      if (this.productForm.valid) {
+        this.api.postProduct(this.productForm.value).subscribe({
+          next: (res) => {
+            console.log(res);
+            this.productForm.reset();
+            //to close the dialog(modal)
+            this.dialog.close("save");
+            alert('product added succesfully!');
+          },
+          error: (err) => {
+            console.log(err);
+            alert(err);
+          },
+          // complete: () => {
+          //   alert('completed!');
+          // }
+        })
+      }
 
-        },
-        complete: () => {
-          alert('completed!');
-        }
-      })
+
+    } else {
+      this.updateProduct();
     }
+  }
+
+  updateProduct() {
+    this.api.updateProduct(this.editData.id, this.productForm.value).subscribe({
+      next: (res => {
+        console.log(res);
+        alert("product updated succesfully")
+        this.productForm.reset();
+        this.dialog.close('update')
+      }
+      ),
+      error: (err => {
+        console.log(err);
+
+      })
+    })
   }
 
 
 
+
 }
+function updateProduct() {
+  throw new Error('Function not implemented.');
+}
+
